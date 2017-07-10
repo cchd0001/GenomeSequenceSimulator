@@ -31,11 +31,11 @@ namespace GSS
         std::vector<std::unique_ptr<IFileWriter> > ret;
         if(t == GenomeSequenceInfo::FASTA)
         {
-            return std::unique_ptr<IFileWriter>(new FastAWriter(filename));
+            return std::unique_ptr<IFileWriter>(new FastAWriter(filename+".fasta"));
         }
         else if( t == GenomeSequenceInfo::FASTQ)
         {
-            return std::unique_ptr<IFileWriter>(new FastQWriter(filename));
+            return std::unique_ptr<IFileWriter>(new FastQWriter(filename+".fastq"));
         }
         return std::unique_ptr<IFileWriter>(nullptr);
     }

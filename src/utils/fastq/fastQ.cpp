@@ -93,7 +93,8 @@ namespace Utils
             weight = 0;
         }
         writer<<'+'<<std::endl;
-        writer<<std::string(readlen,'I')<<std::endl;
+        //For format Illumina 1.5 . always high quality.
+        writer<<std::string(readlen,'i')<<std::endl;
         readlen = 0;
         readend = true;
     }
