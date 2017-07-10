@@ -1,46 +1,46 @@
 {
     "filePath": "./sequence.fasta",
-    "fileType": "fastq",
+    "fileType": "fasta",
     "output": [
         {
             "file_name":"f0",
             "file_type":"fastq",
             "read_type": "single",
-            "read_len": 70,
+            "read_len": 100,
             "insert_len": 70,
-            "depth":50
+            "depth":5
         },
         {
             "file_name":"f1",
             "file_type":"fastq",
             "read_type": "pair-end",
-            "read_len": 70,
-            "depth":50,
-            "insert_len": 200
+            "read_len": 100,
+            "depth":5,
+            "insert_len": 25
         },
         {
             "file_name":"f2",
             "file_type":"fastq",
             "read_type": "pair-end",
-            "read_len": 70,
-            "depth":50,
-            "insert_len": 500
+            "read_len": 100,
+            "depth":5,
+            "insert_len": 50
         },
         {
             "file_name":"f3",
             "file_type":"fastq",
             "read_type": "pair-end",
-            "read_len": 70,
-            "depth":50,
+            "read_len": 100,
+            "depth":5,
             "insert_len": 900
         },
         {
             "file_name":"f4",
             "file_type":"fastq",
             "read_type": "pair-end",
-            "read_len": 70,
-            "depth":50,
-            "insert_len": 1500
+            "read_len": 100,
+            "depth":5,
+            "insert_len": 150
         }
     ]
 }
