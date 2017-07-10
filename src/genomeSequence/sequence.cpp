@@ -43,4 +43,11 @@ namespace GSS
         return ret;
     }
 
+    void TestInterface()
+    {
+        FATAL_TRUE("ATGCCCATG" == GenomeReverse("CATGGGCAT"), "GenomeReverse error");
+        FATAL_TRUE("ATGC" == Head("ATGCASDASDASD",4) , "Head error");
+        FATAL_TRUE("ATGC" == Tail("ARFSFGSDAGCAT",4), "Tail error");
+    }
+
 }//namespace GSS

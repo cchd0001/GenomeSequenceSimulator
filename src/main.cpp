@@ -10,8 +10,9 @@ using namespace GSS;
 using namespace Utils;
 int main()
 {
+    TestInterface();
+    std::cout<<"Test pass ..."<<std::endl;
     srand(time(0));
-
     Config::Instance().InitFromJson("config.json");
     auto reader = Logic::GetFileReader(Config::Instance());
     //FastAReader reader(Config::Instance().SourceFile());

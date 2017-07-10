@@ -9,6 +9,8 @@ namespace GSS
     std::string Head(const std::string & base , int len);
     std::string Tail(const std::string & base , int len);
     std::string GenomeReverse(const std::string & base);
+
+    void TestInterface();
 }
 
 #endif //__GENOMESEQUENCE_SEQUENCE_H__
