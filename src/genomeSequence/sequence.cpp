@@ -19,7 +19,7 @@ namespace GSS
 
     std::string GetRandomFragment(const std::string & base , int len , bool r)
     {
-        FATAL_TRUE(base.length() > (size_t)len);
+        FATAL_TRUE(base.length() > (size_t)len , "insert_len greater than genome size" );
         int start = rand() % (base.length() - len );
         std::string ret = base.substr(start,len);
         if(r)
@@ -31,13 +31,13 @@ namespace GSS
 
     std::string Head(const std::string & base , int len )
     {
-        FATAL_TRUE(base.length() > (size_t)len);
+        FATAL_TRUE(base.length() > (size_t)len , "read_len greater than insert_len");
         return base.substr(0,len);
     }
 
     std::string Tail(const std::string & base ,int len)
     {
-        FATAL_TRUE(base.length() > (size_t)len);
+        FATAL_TRUE(base.length() > (size_t)len,"read_len greater than insert_len");
         std::string ret = base.substr(base.length() - len);
         ret = GenomeReverse(ret);
         return ret;

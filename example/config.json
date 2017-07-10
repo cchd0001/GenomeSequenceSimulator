@@ -16,7 +16,7 @@
             "read_type": "pair-end",
             "read_len": 100,
             "depth":5,
-            "insert_len": 25
+            "insert_len": 250
         },
         {
             "file_name":"f2",
@@ -24,7 +24,7 @@
             "read_type": "pair-end",
             "read_len": 100,
             "depth":5,
-            "insert_len": 50
+            "insert_len": 500
         },
         {
             "file_name":"f3",
@@ -40,7 +40,7 @@
             "read_type": "pair-end",
             "read_len": 100,
             "depth":5,
-            "insert_len": 150
+            "insert_len": 1500
         }
     ]
 }
