@@ -1,7 +1,7 @@
 # GenomeSequenceSimulator
 A simulator to genarate WSG data for Genome denovo 
 
-*INSTALL
+* INSTALL
 
 Simple build by cmake .
 
@@ -16,11 +16,12 @@ Enter src directory:
 
 Binary execute file in bin/Bin/GSS
 
-*EXAMPLE
+* EXAMPLE
+
 After build success ,enter example directory and run ```example.sh``` script.
 
 
-*QUICK START
+* QUICK START
 
 Run GSS with config.json file . All infomations are within config.json. 
 
@@ -49,7 +50,48 @@ Here is part of config.json from example
     ]
 }
 ```
+* OUTPUT 
 
+Here is the top 10 lines of each file that generator by above config.json
+
+```
+==> f0.fastq <==
+@Simulator data , type Single insert_len 100 read_len 100 id 0
+CTTTATCACGAAATGATAGATTCAGGCGTTATTAAGCCAGAAGGTCCAGGATCAAAAGCTGCATTAGTGTATGGTCAAATGAATGAACCCCCAGGAGCTA
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Single insert_len 100 read_len 100 id 1
+ATCCTAATTCAAATCTCACTTGATCATTTCCTTTGCCAGTTGAACCATGAGAAACTGCATAAGCTCCAAATTTTTTAGCGGCAGCAATTTGACGTTTTGC
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Single insert_len 100 read_len 100 id 2
+ACTATATTTTCTAGCGATACAATGAATAAAAAAAGTTCAGCAGATGTTTTAGAAAAAATTATAGATAATAAAATTCAAATTTTAATTGGAACTCAATTAA
+
+==> f1_0.fastq <==
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 0
+CAATAGATAATTCAGGAGATAGAACTAAGGCAAATTTTTTAACTGAGATGATAGTAGAAGACGTCATTGGAAGTAAAAATTCTTTCTATGGAGTAAATTC
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 1
+TGCAATACCATCAAAAATATTTTCCAACATTTGATAAAAAAGGAAAAATTACCAATGAATTTTTAGTTGTGGCAAATAACAATGATGAAAAAGGTTATAT
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 2
+ATTGGAACTAATAATAAGATCTATTCATTTGCATCAATTGGAAATGATCCTCAAGATTTAAAATTTGCAGGTGAAGAAACGAAGCTTGAAATTGGTGACA
+
+==> f1_1.fastq <==
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 0
+TCAACTGGTGTAGTGGTATTAGAACTGCTTCCACCACAGCTCAGATCTGCACTCCAACTATTGTCACTTAGATGCTTTGAAAATGTATTTAATGTGTCTC
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 1
+ATTTTGTCAAAATAAGACCCAAGACCTTTAAAATAATTCATATTTTTTAATTTTGAAACTTGTTTAACTAAATTTTGAGATTTATTTTTTTCCCAAAAAA
++
+iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii
+@Simulator data , type Pair-End insert_len 250 read_len 100 id 2
+CGTTGTTAGCTAGAATAACGTTATCTTCGACTAAACAATCATGTGCTATATGTGAAGAAACCATAAATAAACAGTTATTTCCTACTTTAGTTATTCCACC
+
+```
 
 
 
