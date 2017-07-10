@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+
 namespace GSS{
 
 struct GenomeSequenceInfo
@@ -28,6 +29,7 @@ struct GenomeSequenceInfo
     unsigned int depth;
     std::string file_name ;
 };//struct GenomeSequenceInfo
+
 
 class Config
 {

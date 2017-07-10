@@ -4,11 +4,11 @@
 
 #include <string>
 #include <fstream>
-
+#include "iFileWR.h"
 namespace Utils
 {
 
-class FastAReader
+class FastAReader : public IFileReader
 {
     private:
         std::string file_name;
@@ -18,9 +18,9 @@ class FastAReader
         FastAReader & operator=(const FastAReader &);
     public:
 
-        const std::string  GetNextRead() ;
+        const std::string  GetNextRead() override;
 
-        inline bool Eof() const { return reader.eof();} 
+        bool Eof() const override{ return reader.eof();} 
 
         FastAReader(const std::string & fname);
 
@@ -28,7 +28,7 @@ class FastAReader
 };
 
 
-class FastAWriter
+class FastAWriter : public IFileWriter 
 {
     private:
         std::string file_name;
@@ -46,9 +46,11 @@ class FastAWriter
 
         ~FastAWriter() { if( writer.is_open()) { writer.close();}}
 
-        void StartNewRead(const std::string & comment);
+        void StartNewRead(const std::string & comment) override;
 
-        void WriteRead(const std::string & read);
+        void WriteRead(const std::string & read) override;
+
+        void EndRead() override ;
 };
 
 }//namespace GSS

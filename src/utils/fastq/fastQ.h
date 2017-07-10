@@ -4,7 +4,7 @@
 
 #include <string>
 #include <fstream>
-
+#include "iFileWR.h"
 namespace Utils
 {
 /*
@@ -28,7 +28,7 @@ class FastQReader
 };*/
 
 
-class FastQWriter
+class FastQWriter : public IFileWriter
 {
     private:
         std::string file_name;
@@ -48,11 +48,11 @@ class FastQWriter
 
         ~FastQWriter() { if( writer.is_open()) { writer.close();}}
 
-        void StartNewRead(const std::string & comment);
+        void StartNewRead(const std::string & comment) override;
 
-        void WriteRead(const std::string & read);
+        void WriteRead(const std::string & read) override;
 
-        void EndRead();
+        void EndRead() override;
 };
 
 }//namespace GSS

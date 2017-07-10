@@ -56,9 +56,7 @@ namespace Utils
     {
         if(!newline)
         {
-            writer<<std::endl;
-            newline = true;
-            weight = 0;
+            EndRead();
         }
         writer<<'>'<<commond<<std::endl;
     }
@@ -80,6 +78,15 @@ namespace Utils
             writer<<read.substr(curr);
             weight = read.length() -curr ;
             newline = false;
+        }
+    }
+    void FastAWriter::EndRead()
+    {
+        if(!newline)
+        {
+            writer<<std::endl;
+            weight = 0;
+            newline = true;
         }
     }
 

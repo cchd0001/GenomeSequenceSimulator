@@ -62,9 +62,13 @@ void Config::InitFromJson( const std::string &json_file)
     {
         input_file_type = FASTQ;
     }
-    else
+    else if( JSON_STRING(doc,fileType) ==fasta )
     {
-        FATAL_TRUE(false, "Only support %s input now . ",fastq.c_str());
+        input_file_type = FASTA;
+    }
+    else 
+    {
+        FATAL_TRUE(false, "Only support %s && %sinput now . ",fastq.c_str(),fasta.c_str());
     }
     const rapidjson::Value& a = doc["output"];
     for (rapidjson::SizeType i = 0; i < a.Size(); i++)
@@ -80,11 +84,11 @@ void Config::InitFromJson( const std::string &json_file)
         GenomeSequenceInfo a_info;
 
         a_info.file_name = a_output["file_name"].GetString();
-        /*if( a_output["file_type"].GetString() == fasta ) 
+        if( a_output["file_type"].GetString() == fasta ) 
         {
             a_info.file_type = GenomeSequenceInfo::FASTA;
         }
-        else*/ if ( a_output["file_type"].GetString() == fastq )
+        else if ( a_output["file_type"].GetString() == fastq )
         {
             a_info.file_type = GenomeSequenceInfo::FASTQ;
         }

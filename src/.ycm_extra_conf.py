@@ -82,25 +82,29 @@ flags = [
 './tests/gmock/include',
 #Add project
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src',
 #Add rapidjson
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/thirdPart/rapidjson/include/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/thirdPart/rapidjson/include/',
 #Add gtest
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/thirdPart/rapidjson/thirdparty/gtest/googletest/include/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/thirdPart/rapidjson/thirdparty/gtest/googletest/include/',
 #Add log
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/utils/log/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/utils/log/',
 #Add fastq
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/utils/fastq/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/utils/fastq/',
 #Add fasta
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/utils/fasta/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/utils/fasta/',
 #Add fastq
 '-isystem',
-'/root/Project/GuoLidong/GenomeSequenceSimulator/src/genomeSequence/',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/genomeSequence/',
+
+#Add ifilerw
+'-isystem',
+'/home/Project/GuoLidong/GenomeSequenceSimulator/src/utils/iFileWR/',
 ]
 
 # Set this to the absolute path to the folder (NOT the file!) containing the
