@@ -7,15 +7,15 @@
             "file_type":"fastq",
             "read_type": "single",
             "read_len": 100,
-            "insert_len": 70,
-            "depth":5
+            "insert_len": 100,
+            "depth":80
         },
         {
             "file_name":"f1",
             "file_type":"fastq",
             "read_type": "pair-end",
             "read_len": 100,
-            "depth":5,
+            "depth":100,
             "insert_len": 250
         },
         {
@@ -23,7 +23,7 @@
             "file_type":"fastq",
             "read_type": "pair-end",
             "read_len": 100,
-            "depth":5,
+            "depth":100,
             "insert_len": 500
         },
         {
@@ -31,7 +31,7 @@
             "file_type":"fastq",
             "read_type": "pair-end",
             "read_len": 100,
-            "depth":5,
+            "depth":100,
             "insert_len": 900
         },
         {
@@ -39,7 +39,7 @@
             "file_type":"fastq",
             "read_type": "pair-end",
             "read_len": 100,
-            "depth":5,
+            "depth":100,
             "insert_len": 1500
         }
     ]

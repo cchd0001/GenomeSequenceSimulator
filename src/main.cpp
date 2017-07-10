@@ -4,11 +4,14 @@
 #include "fastA.h"
 #include "sequence.h"
 #include "logic.h"
+#include <stdlib.h>
 
 using namespace GSS;
 using namespace Utils;
 int main()
 {
+    srand(time(0));
+
     Config::Instance().InitFromJson("config.json");
     auto reader = Logic::GetFileReader(Config::Instance());
     //FastAReader reader(Config::Instance().SourceFile());
@@ -19,7 +22,7 @@ int main()
     Config::Instance().ForEachInfo( [ &] (const  GenomeSequenceInfo & info) {
         std::cout<<"Work for info "<< index++<<std::endl;
         unsigned long long id  = 0;
-        unsigned long long maxId = (unsigned long long) genome.length() * info.depth;
+        unsigned long long maxId = (unsigned long long) genome.length()/info.read_length * info.depth;
         std::string commond = "Simulator data , type " 
                  + (info.read_type == GenomeSequenceInfo::SINGLE ? std::string("Single") : std::string("Pair-End"))
                  + " insert_len " + std::to_string(info.insert_length) 
