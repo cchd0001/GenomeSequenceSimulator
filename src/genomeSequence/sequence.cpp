@@ -8,7 +8,7 @@ namespace GSS
 
     std::string GenomeReverse(const std::string & base)
     {
-        std::string ret('A',base.length());
+        std::string ret(base.length(),'N');
         int i = 0 ;
         for(auto it = base.rbegin(); it != base.rend() ; i++,it = std::next(it))
         {

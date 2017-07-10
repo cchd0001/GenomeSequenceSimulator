@@ -93,7 +93,7 @@ namespace Utils
             weight = 0;
         }
         writer<<'+'<<std::endl;
-        writer<<std::string('A',readlen)<<std::endl;
+        writer<<std::string(readlen,'I')<<std::endl;
         readlen = 0;
         readend = true;
     }
