@@ -1,5 +1,6 @@
 # GenomeSequenceSimulator
-A simulator to genarate WSG data for Genome denovo 
+
+A small tool for simulating sequence reads from a reference genome
 
 * INSTALL
 
