@@ -2,6 +2,7 @@
 #include "utilsError.hpp"
 #include <stdlib.h>
 #include <algorithm>
+
 using namespace Utils;
 namespace GSS
 {
@@ -48,6 +49,60 @@ namespace GSS
         FATAL_TRUE("ATGCCCATG" == GenomeReverse("CATGGGCAT"), "GenomeReverse error");
         FATAL_TRUE("ATGC" == Head("ATGCASDASDASD",4) , "Head error");
         FATAL_TRUE("ATGC" == Tail("ARFSFGSDAGCAT",4), "Tail error");
+    }
+
+
+    GenomeSequenece::GenomeSequenece(const std::string &seq): dirty(false) , sequence(seq.length())
+    {
+        int i = 0;
+        for( auto it = seq.begin(); it != seq.end() ; it = std::next(it), i++)
+        {
+            sequence.at(i).SetChar(*it);
+        }
+    }
+
+    void GenomeSequenece::Polymorphic(double mut_rate, double indel_factor,double indel_extern)
+    {
+        if(dirty) 
+        {
+            return ;
+        }
+        dirty = true;
+        bool delete_flag = false;
+        for(auto  it = sequence.begin() ; it != sequence.end() ; it = std::next(it)) 
+        {
+            DNA_Bit & dna_bit = *it;
+            if(delete_flag && drand48() < indel_extern)
+            {
+                dna_bit.DoDelete();
+                continue;
+            }
+            else
+            {
+                delete_flag = false;
+            }
+
+            if(drand48() > mut_rate)
+            {
+                continue;
+            }
+            if(drand48() > indel_factor)
+            {
+                dna_bit.DoSNP();
+            }
+            else
+            {
+                if(drand48() > 0.05f)
+                {
+                    dna_bit.DoDelete();
+                    delete_flag = true;
+                }
+                else
+                {
+                    dna_bit.DoInsert(indel_extern);
+                }
+            }
+        }
     }
 
 }//namespace GSS
