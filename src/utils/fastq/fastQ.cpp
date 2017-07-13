@@ -1,6 +1,7 @@
 #include "fastQ.h"
 #include "utilsError.hpp"
 #include <iostream>
+#include <stdio.h>
 
 namespace Utils 
 {
@@ -44,14 +45,17 @@ namespace Utils
     #define WEIGHT_MAX 100u
 
     FastQWriter::FastQWriter(const std::string & fname) 
-        : file_name(fname)
-        , readend(true)
+ //       : file_name(fname)
+        : readend(true)
         , newline(true)
         , weight(0)
         , readlen(0)
     {
-        writer.open(file_name,std::ios::out);
-        FATAL_TRUE_EN(writer.is_open());
+        fd =fopen(fname.c_str(),"w");
+        FATAL_TRUE_EN(fd);
+        //writer.open(file_name,std::ios::out);
+        //FATAL_TRUE_EN(writer.is_open());
+
     }
 
     void FastQWriter::StartNewRead(const std::string & commond)
@@ -60,7 +64,8 @@ namespace Utils
         {
             EndRead();
         }
-        writer<<'@'<<commond<<std::endl;
+        //writer<<'@'<<commond<<std::endl;
+        fprintf(fd,"@%s\n",commond.c_str());
     }
 
     void FastQWriter::WriteRead(const std::string & read)
@@ -71,7 +76,8 @@ namespace Utils
         readlen += read.length();
         while(read.length() -curr > WEIGHT_MAX - weight)
         {
-            writer<<read.substr(curr, WEIGHT_MAX-weight)<<std::endl;
+            fprintf(fd,"%s\n",read.substr(curr,WEIGHT_MAX-weight).c_str());
+            //writer<<read.substr(curr, WEIGHT_MAX-weight)<<std::endl;
             curr += WEIGHT_MAX - weight-1;
             weight = 0 ;
             newline = true ;
@@ -79,7 +85,8 @@ namespace Utils
 
         if(read.length() - curr > 0 )
         {
-            writer<<read.substr(curr);
+            fprintf(fd,"%s",read.substr(curr).c_str());
+            //writer<<read.substr(curr);
             weight = read.length() -curr ;
             newline = false;
         }
@@ -88,13 +95,15 @@ namespace Utils
     {
         if(!newline)
         {
-            writer<<std::endl;
+            fprintf(fd,"\n");
+            //writer<<std::endl;
             newline = true;
             weight = 0;
         }
-        writer<<'+'<<std::endl;
+        fprintf(fd,"+\n%s\n",std::string(readlen,'i').c_str());
+        //writer<<'+'<<std::endl;
         //For format Illumina 1.5 . always high quality.
-        writer<<std::string(readlen,'i')<<std::endl;
+        //writer<<std::string(readlen,'i')<<std::endl;
         readlen = 0;
         readend = true;
     }

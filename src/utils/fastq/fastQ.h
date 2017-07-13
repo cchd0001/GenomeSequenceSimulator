@@ -31,8 +31,9 @@ class FastQReader
 class FastQWriter : public IFileWriter
 {
     private:
-        std::string file_name;
-        std::ofstream writer;
+        //std::string file_name;
+        //std::ofstream writer;
+        FILE * fd;
 
         bool readend;
         bool newline;
@@ -46,7 +47,7 @@ class FastQWriter : public IFileWriter
 
         FastQWriter( const std::string & fname);
 
-        ~FastQWriter() { if( writer.is_open()) { writer.close();}}
+        ~FastQWriter() {if(fd) fclose(fd);  }//if( writer.is_open()) { writer.close();}}
 
         void StartNewRead(const std::string & comment) override;
 
