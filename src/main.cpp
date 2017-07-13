@@ -26,6 +26,7 @@ int main()
     std::string genome(reader->GetNextRead());
 
     GenomeSequenece sequence(genome);
+    sequence.Polymorphic(0.001,0.15,0.3);
 
     std::cout<<"Toatl genome size "<<genome.length()<<std::endl;
     CHECKPOINT(Load refrence genome pass ... );

@@ -127,7 +127,7 @@ namespace GSS
     {
         std::string ret(frament.end_index-frament.start_index,'N');
         int index = 0;
-        auto setSeq=[&index,&ret](const DNA_Bit & dna_bit)
+        auto setSeq=[&index,&ret](const DNA_Bit & dna_bit, int len)
         {
             if(dna_bit.NoChange())
             {
@@ -146,7 +146,7 @@ namespace GSS
                 }
                 if(dna_bit.IsInsert())
                 {
-                    for(int j= 0 ; j < dna_bit.InsertNum(); j++)
+                    for(int j= 0 ; j < dna_bit.InsertNum() && index < len; j++)
                     {
                         ret.at(index++) = dna_bit.InsertID(j);
                     }
@@ -157,14 +157,14 @@ namespace GSS
         {
             for(int i = frament.start_index; i < frament.end_index &&index < (int)ret.length(); i++)
             {
-                setSeq( sequence.at(i));
+                setSeq( sequence.at(i),ret.length());
             }
         }
         else
         {
             for(int i = frament.end_index -1 ; i >= frament.start_index &&index < (int)ret.length(); i--)
             {
-                setSeq( sequence.at(i));
+                setSeq( sequence.at(i),ret.length());
             }
         }
         return ret;
