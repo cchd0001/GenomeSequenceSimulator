@@ -48,6 +48,8 @@ class Config
         std::vector<GenomeSequenceInfo> infos;
 
     public:
+        size_t OutputSize() const { return infos.size(); }
+
         static Config & Instance();
 
         inline const std::string SourceFile() const 

@@ -42,20 +42,17 @@ namespace Utils
 */
     /////////////////////////////////////////////////////////////////////
 
-    #define WEIGHT_MAX 100u
+    #define WIDTH_MAX 100
 
     FastQWriter::FastQWriter(const std::string & fname) 
- //       : file_name(fname)
         : readend(true)
         , newline(true)
         , weight(0)
         , readlen(0)
+        , total_n(0)
     {
         fd =fopen(fname.c_str(),"w");
         FATAL_TRUE_EN(fd);
-        //writer.open(file_name,std::ios::out);
-        //FATAL_TRUE_EN(writer.is_open());
-
     }
 
     void FastQWriter::StartNewRead(const std::string & commond)
@@ -64,7 +61,6 @@ namespace Utils
         {
             EndRead();
         }
-        //writer<<'@'<<commond<<std::endl;
         fprintf(fd,"@%s\n",commond.c_str());
     }
 
@@ -74,11 +70,10 @@ namespace Utils
         size_t curr = 0;
 
         readlen += read.length();
-        while(read.length() -curr > WEIGHT_MAX - weight)
+        while(read.length() -curr > WIDTH_MAX- weight)
         {
-            fprintf(fd,"%s\n",read.substr(curr,WEIGHT_MAX-weight).c_str());
-            //writer<<read.substr(curr, WEIGHT_MAX-weight)<<std::endl;
-            curr += WEIGHT_MAX - weight-1;
+            fprintf(fd,"%s\n",read.substr(curr,WIDTH_MAX-weight).c_str());
+            curr += WIDTH_MAX- weight-1;
             weight = 0 ;
             newline = true ;
         }
@@ -86,7 +81,6 @@ namespace Utils
         if(read.length() - curr > 0 )
         {
             fprintf(fd,"%s",read.substr(curr).c_str());
-            //writer<<read.substr(curr);
             weight = read.length() -curr ;
             newline = false;
         }
@@ -96,16 +90,40 @@ namespace Utils
         if(!newline)
         {
             fprintf(fd,"\n");
-            //writer<<std::endl;
-            newline = true;
-            weight = 0;
         }
-        fprintf(fd,"+\n%s\n",std::string(readlen,'i').c_str());
-        //writer<<'+'<<std::endl;
-        //For format Illumina 1.5 . always high quality.
-        //writer<<std::string(readlen,'i')<<std::endl;
+        newline = true;
+        weight = 0;
+        size_t curr = 0;
+        std::string quality(readlen,'i');
+        while(quality.length() -curr > WIDTH_MAX- weight)
+        {
+            fprintf(fd,"%s\n",quality.substr(curr,WIDTH_MAX-weight).c_str());
+            curr += WIDTH_MAX- weight-1;
+            weight = 0 ;
+            newline = true ;
+        }
+
+        if(quality.length() - curr > 0 )
+        {
+            fprintf(fd,"%s\n",quality.substr(curr).c_str());
+            weight = quality.length() -curr ;
+            newline = true;
+        }
+        newline = true;
+        weight = 0;
         readlen = 0;
         readend = true;
+    }
+
+
+    FastQWriter::~FastQWriter()
+    {
+        if(fd)
+        {
+            fclose(fd);
+            fd = 0;
+        }
+        std::cout<<"Total write "<<total_n<<" bp into file !"<<std::endl;
     }
 
 }//namespace GSS

@@ -39,6 +39,7 @@ class FastQWriter : public IFileWriter
         bool newline;
         int weight;
         int readlen;
+        size_t total_n;
 
         FastQWriter(const FastQWriter& ) ;
         FastQWriter& operator=(const FastQWriter&);
@@ -47,7 +48,7 @@ class FastQWriter : public IFileWriter
 
         FastQWriter( const std::string & fname);
 
-        ~FastQWriter() {if(fd) fclose(fd);  }//if( writer.is_open()) { writer.close();}}
+        ~FastQWriter();
 
         void StartNewRead(const std::string & comment) override;
 

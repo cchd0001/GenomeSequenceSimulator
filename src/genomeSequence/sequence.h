@@ -7,11 +7,6 @@
 
 namespace GSS
 {
-    std::string GetRandomFragment(const std::string & base , int len , bool reverse );
-    std::string Head(const std::string & base , int len);
-    std::string Tail(const std::string & base , int len);
-
-    void TestInterface();
 
     struct DNA_Bit
     {
@@ -137,14 +132,15 @@ namespace GSS
             };
             GenomeSequenece(const std::string & sequence);
             void Polymorphic(double mut_rate, double indel_factor,double indel_extern) ;
-
-            GenomeFragment GetRandomFragment(int len , bool reverse);
-
-            std::string GetFramentSequence(const GenomeFragment & frament);
+            GenomeFragment GetRandomFragment(int len , bool reverse) const;
+            std::string GetFramentSequence(const GenomeFragment & frament) const;
+            size_t length()const {return  sequence.size(); }
         private:
             bool dirty ;
             std::vector<DNA_Bit> sequence;
-    };
+    };//class GenomeSequence
+
+    void TestInterface();
 }
 
 #endif //__GENOMESEQUENCE_SEQUENCE_H__

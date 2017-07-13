@@ -113,7 +113,7 @@ namespace GSS
         }
     }
 
-    GenomeSequenece::GenomeFragment GenomeSequenece::GetRandomFragment(int len , bool reverse)
+    GenomeSequenece::GenomeFragment GenomeSequenece::GetRandomFragment(int len , bool reverse) const
     {
         GenomeFragment ret;
         ret.start_index = rand() % ( sequence.size()- len );
@@ -123,7 +123,7 @@ namespace GSS
     }
 
 
-    std::string  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament)
+    std::string  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament) const
     {
         std::string ret(frament.end_index-frament.start_index,'N');
         int index = 0;

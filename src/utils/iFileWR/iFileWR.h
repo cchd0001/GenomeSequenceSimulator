@@ -11,6 +11,8 @@ class IFileReader
         virtual const std::string  GetNextRead()=0 ;
 
         virtual bool Eof() const = 0;
+
+        virtual ~IFileReader() {}
 };
 
 class IFileWriter
@@ -22,6 +24,8 @@ class IFileWriter
         virtual void WriteRead(const std::string & read) = 0;
 
         virtual void EndRead() = 0;
+
+        virtual ~IFileWriter(){}
 };
 
 }//namespace Utils
