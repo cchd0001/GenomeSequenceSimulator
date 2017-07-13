@@ -57,6 +57,7 @@ namespace GSS
         FATAL_TRUE(DNA_Bit::ID2CHAR(1) == 'C');
         FATAL_TRUE(DNA_Bit::ID2CHAR(2) == 'T');
         FATAL_TRUE(DNA_Bit::ID2CHAR(3) == 'G');
+
     }
 
 
@@ -122,12 +123,11 @@ namespace GSS
         return ret;
     }
 
-
-    std::string  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament) const
+    std::string  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament,double unccorrect) const
     {
         std::string ret(frament.end_index-frament.start_index,'N');
         int index = 0;
-        auto setSeq=[&index,&ret](const DNA_Bit & dna_bit, int len)
+        auto setSeq=[&index,&ret,&unccorrect](const DNA_Bit & dna_bit, int len)
         {
             if(dna_bit.NoChange())
             {
@@ -151,6 +151,12 @@ namespace GSS
                         ret.at(index++) = dna_bit.InsertID(j);
                     }
                 }
+            }
+
+            if(drand48() < unccorrect)
+            {
+                 ret.at(index-1) = DNA_Bit::ID2CHAR(
+                         (DNA_Bit::CHAR2ID(ret.at(index-1)) + 1) & 0x3);
             }
         };
         if(!frament.reverse)

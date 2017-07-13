@@ -133,7 +133,7 @@ namespace GSS
             GenomeSequenece(const std::string & sequence);
             void Polymorphic(double mut_rate, double indel_factor,double indel_extern) ;
             GenomeFragment GetRandomFragment(int len , bool reverse) const;
-            std::string GetFramentSequence(const GenomeFragment & frament) const;
+            std::string GetFramentSequence(const GenomeFragment & frament,double unccorrect) const;
             size_t length()const {return  sequence.size(); }
         private:
             bool dirty ;

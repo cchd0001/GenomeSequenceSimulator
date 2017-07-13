@@ -55,8 +55,17 @@ void Config::InitFromJson( const std::string &json_file)
     CHECK_JSON_ITEM(doc,fileType,String);
     CHECK_JSON_ITEM(doc,filePath,String);
     CHECK_JSON_ITEM(doc,output,Array);
+    CHECK_JSON_ITEM(doc,variable,Double);
+    CHECK_JSON_ITEM(doc,InDel,Double);
+    CHECK_JSON_ITEM(doc,InDel_Extern,Double);
+    CHECK_JSON_ITEM(doc,error,Double);
+
 
     source_file = JSON_STRING(doc,filePath);
+    variation_rate = doc["variable"].GetDouble();
+    indel_rate = doc["InDel"].GetDouble();
+    indel_extern = doc["InDel_Extern"].GetDouble();
+    error_rate  = doc["error"].GetDouble();
 
     if( JSON_STRING(doc,fileType) ==fastq )
     {

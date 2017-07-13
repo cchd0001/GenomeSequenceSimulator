@@ -48,6 +48,15 @@ class Config
         std::vector<GenomeSequenceInfo> infos;
 
     public:
+
+        double error_rate;
+
+        double variation_rate;
+
+        double indel_rate;
+
+        double indel_extern;
+
         size_t OutputSize() const { return infos.size(); }
 
         static Config & Instance();

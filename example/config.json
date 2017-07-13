@@ -1,7 +1,19 @@
 {
     "filePath": "./sequence.fasta",
     "fileType": "fasta",
+    "variable":0.0001,
+    "InDel":0.015,
+    "InDel_Extern":0.3,
+    "error":0.0001,
     "output": [
+        {
+            "file_name":"f0",
+            "file_type":"fastq",
+            "read_type": "single",
+            "read_len": 100,
+            "depth":100,
+            "insert_len": 100
+        },
         {
             "file_name":"f1",
             "file_type":"fastq",

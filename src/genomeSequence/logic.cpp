@@ -41,7 +41,7 @@ namespace GSS
     }
 
 
-    void OutputLogic::Process1Sequence(const GSS::GenomeSequenece & sequence)
+    void OutputLogic::Process1Sequence(const GSS::GenomeSequenece & sequence,double error_rate)
     {
         size_t read_num  =  sequence.length()/info.read_length * info.depth;
         std::string commond = "Simulator data , type " 
@@ -54,7 +54,7 @@ namespace GSS
             if(info.read_type == GenomeSequenceInfo::ReadType::SINGLE)
             {
                 writer0->StartNewRead(commond + std::to_string(id));
-                writer0->WriteRead(sequence.GetFramentSequence(sequence.GetRandomFragment(info.insert_length,rand() & 0x1)));
+                writer0->WriteRead(sequence.GetFramentSequence(sequence.GetRandomFragment(info.insert_length,rand() & 0x1),error_rate));
                 writer0->EndRead();
             }
             else
@@ -62,8 +62,8 @@ namespace GSS
                 writer0->StartNewRead(commond + std::to_string(id));
                 writer1->StartNewRead(commond + std::to_string(id));
                 auto base = sequence.GetRandomFragment(info.insert_length,rand() & 0x1);
-                writer0->WriteRead(sequence.GetFramentSequence(base.Head(info.read_length)));
-                writer1->WriteRead(sequence.GetFramentSequence(base.Tail(info.read_length)));
+                writer0->WriteRead(sequence.GetFramentSequence(base.Head(info.read_length),error_rate));
+                writer1->WriteRead(sequence.GetFramentSequence(base.Tail(info.read_length),error_rate));
                 writer0->EndRead();
                 writer1->EndRead();
             }

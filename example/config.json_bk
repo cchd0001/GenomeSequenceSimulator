@@ -1,6 +1,12 @@
 {
     "filePath": "./sequence.fasta",
     "fileType": "fasta",
+    "variable":{
+        "factor":0.001f,
+        "InDel":0.015f,
+        "InDel_Extern":0.3f
+    },
+    "uncorrect":0.0001f,
     "output": [
         {
             "file_name":"f0",

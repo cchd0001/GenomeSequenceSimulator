@@ -94,6 +94,7 @@ namespace Utils
         newline = true;
         weight = 0;
         size_t curr = 0;
+        total_n += readlen;
         std::string quality(readlen,'i');
         while(quality.length() -curr > WIDTH_MAX- weight)
         {

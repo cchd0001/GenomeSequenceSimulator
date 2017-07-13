@@ -42,7 +42,7 @@ namespace GSS
                     writer1 = Logic::GetFileWriter(i.file_type,i.file_name+"_1");
                 }
             }
-            void Process1Sequence(const GenomeSequenece & sequence);
+            void Process1Sequence(const GenomeSequenece & sequence, double error_rate);
     };
 
 

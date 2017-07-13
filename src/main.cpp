@@ -9,6 +9,7 @@
 
 using namespace GSS;
 using namespace Utils;
+
 int main()
 {
     TASK_BEGIN(GenomeSequenceSimulator);
@@ -18,16 +19,17 @@ int main()
     srand(time(0));
     std::srand(time(0));
     std::cout<<"Init random seed pass ..."<<std::endl;
-
-    Config::Instance().InitFromJson("config.json");
-    auto reader = Logic::GetFileReader(Config::Instance());
-    OutputLogic ** OLogics = new OutputLogic *[Config::Instance().OutputSize()];
+    Config & conf = Config::Instance();
+    conf.InitFromJson("config.json");
+    auto reader = Logic::GetFileReader(conf);
+    OutputLogic ** OLogics = new OutputLogic *[conf.OutputSize()];
 
     int itr = 0;
     auto fill_one_output =  [&itr, &OLogics] (const  GenomeSequenceInfo & info) {
-        *(OLogics + itr) = new OutputLogic(info);
+        *(OLogics + itr++) = new OutputLogic(info);
+
     };
-    Config::Instance().ForEachInfo( fill_one_output );
+    conf.ForEachInfo( fill_one_output );
     CHECKPOINT(Load config pass ... );
 
     while(!reader->Eof())
@@ -35,12 +37,19 @@ int main()
         std::string genome(reader->GetNextRead());
         std::cout<<"Toatl genome size "<<genome.length()<<std::endl;
         GenomeSequenece sequence(genome);
-        sequence.Polymorphic(0.001,0.15,0.3);
-        for( int i = 0 ; i < (int)Config::Instance().OutputSize() ; i++ )
+        sequence.Polymorphic(conf.variation_rate,conf.indel_rate,conf.indel_extern);
+        for( int i = 0 ; i < (int)conf.OutputSize() ; i++ )
         {
-            (*(OLogics+i))->Process1Sequence(sequence);
+            (*(OLogics+i))->Process1Sequence(sequence,conf.error_rate);
         }
     }
+
+    for( int i = 0 ; i < (int)conf.OutputSize() ; i++ )
+    {
+        delete (*(OLogics+i));
+    }
+    delete []OLogics;
+
     TASK_END;
     return 0;
 }
