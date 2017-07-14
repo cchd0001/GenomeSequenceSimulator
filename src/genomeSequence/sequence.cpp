@@ -83,14 +83,14 @@ namespace GSS
                     std::cout<<DNA_Bit::ID2CHAR(sequence.at(deleteId).Id());
                     last_delete = deleteId;
                 }
-                std::cout<<"\t-\t-"<<"#DEL "<<index<<"-"<<last_delete<<std::endl;
+                std::cout<<"\t-\t-"<</*"#DEL "<<index<<"-"<<last_delete<<*/std::endl;
                 return ;
             }
             if(dna_bit.IsSNP())
             {
                 std::cout<<DNA_Bit::ID2CHAR(dna_bit.Id())<<"\t"
                          <<DNA_Bit::ID2CHAR(dna_bit.SNPId())<<"\t-"
-                         <<"#SNP "<<dna_bit.Id()<<" -> "<<dna_bit.SNPId()<<std::endl;
+                         /*<<"#SNP "<<dna_bit.Id()<<" -> "<<dna_bit.SNPId()*/<<std::endl;
                 return;
             }
             if(dna_bit.IsInsert())
@@ -100,7 +100,7 @@ namespace GSS
                 {
                     std::cout<<DNA_Bit::ID2CHAR(dna_bit.InsertID(i));
                 }
-                std::cout<<"\t-"<<"#Insert" <<dna_bit.InsertNum()<<std::endl;
+                std::cout<<"\t-"/*<<"#Insert" <<dna_bit.InsertNum()*/<<std::endl;
                 return ;
             }
         };

@@ -45,7 +45,8 @@ namespace Utils
     #define WIDTH_MAX 100
 
     FastQWriter::FastQWriter(const std::string & fname) 
-        : readend(true)
+        : file_name(fname)
+        , readend(true)
         , newline(true)
         , weight(0)
         , readlen(0)
@@ -126,7 +127,7 @@ namespace Utils
             fclose(fd);
             fd = 0;
         }
-        std::cout<<"Total write "<<total_n<<" bp into file !"<<std::endl;
+        std::cout<<"Total write "<<total_n<<" bp into "<<file_name<<"!"<<std::endl;
     }
 
 }//namespace GSS

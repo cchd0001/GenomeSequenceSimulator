@@ -33,18 +33,23 @@ int main()
     conf.ForEachInfo( fill_one_output );
     CHECKPOINT(Load config pass ... );
 
+
     while(!reader->Eof())
     {
         auto rInfo = reader->GetNextRead();
-
+        std::cout<<"--------------------------------------------------------------"<<std::endl;
+        std::cout<<"Load a new sequence now ..."<<std::endl;
         std::cout<<"Genome name    "<<rInfo.name<<std::endl;
         std::cout<<"Genome comment "<<rInfo.comment<<std::endl;
         std::cout<<"Genome size    "<<rInfo.read.size()<<std::endl;
+        std::cout<<"--------------------------------------------------------------"<<std::endl;
         GenomeSequenece sequence(rInfo.name, rInfo.read);
         sequence.Polymorphic(conf.variation_rate,conf.indel_rate,conf.indel_extern);
+        std::cout<<"--------------------------------------------------------------"<<std::endl;
         for( int i = 0 ; i < (int)conf.OutputSize() ; i++ )
         {
             (*(OLogics+i))->Process1Sequence(sequence,conf.error_rate);
+            CHECKPOINT(write a ouput by curr reference end);
         }
     }
 

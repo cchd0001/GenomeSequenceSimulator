@@ -31,7 +31,7 @@ class FastQReader
 class FastQWriter : public IFileWriter
 {
     private:
-        //std::string file_name;
+        std::string file_name;
         //std::ofstream writer;
         FILE * fd;
 
