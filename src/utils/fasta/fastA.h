@@ -5,6 +5,7 @@
 #include <string>
 #include <fstream>
 #include "iFileWR.h"
+
 namespace Utils
 {
 
@@ -18,7 +19,8 @@ class FastAReader : public IFileReader
         FastAReader & operator=(const FastAReader &);
     public:
 
-        const std::string  GetNextRead() override;
+
+        const ReadInfo  GetNextRead() override;
 
         bool Eof() const override{ return reader.eof();} 
 

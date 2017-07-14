@@ -2,53 +2,13 @@
 #include "utilsError.hpp"
 #include <stdlib.h>
 #include <algorithm>
+#include <iostream>
 
 using namespace Utils;
 namespace GSS
 {
-
-    std::string GenomeReverse(const std::string & base)
-    {
-        std::string ret(base.length(),'N');
-        int i = 0 ;
-        for(auto it = base.rbegin(); it != base.rend() ; i++,it = std::next(it))
-        {
-            ret[i] = *it == 'A' ? 'T' : *it == 'T' ? 'A' : *it =='G' ? 'C' : 'G';
-        }
-        return ret;
-    }
-
-    std::string GetRandomFragment(const std::string & base , int len , bool r)
-    {
-        FATAL_TRUE(base.length() > (size_t)len , "insert_len greater than genome size" );
-        int start = rand() % (base.length() - len );
-        std::string ret = base.substr(start,len);
-        if(r)
-        {
-            ret = GenomeReverse(ret);
-        }
-        return ret;
-    }
-
-    std::string Head(const std::string & base , int len )
-    {
-        FATAL_TRUE(base.length() > (size_t)len , "read_len greater than insert_len");
-        return base.substr(0,len);
-    }
-
-    std::string Tail(const std::string & base ,int len)
-    {
-        FATAL_TRUE(base.length() > (size_t)len,"read_len greater than insert_len");
-        std::string ret = base.substr(base.length() - len);
-        ret = GenomeReverse(ret);
-        return ret;
-    }
-
     void TestInterface()
     {
-        FATAL_TRUE("ATGCCCATG" == GenomeReverse("CATGGGCAT"), "GenomeReverse error");
-        FATAL_TRUE("ATGC" == Head("ATGCASDASDASD",4) , "Head error");
-        FATAL_TRUE("ATGC" == Tail("ARFSFGSDAGCAT",4), "Tail error");
         FATAL_TRUE(DNA_Bit::CHAR2ID('A') == 0);
         FATAL_TRUE(DNA_Bit::CHAR2ID('C') == 1);
         FATAL_TRUE(DNA_Bit::CHAR2ID('T') == 2);
@@ -61,7 +21,7 @@ namespace GSS
     }
 
 
-    GenomeSequenece::GenomeSequenece(const std::string &seq): dirty(false) , sequence(seq.length())
+    GenomeSequenece::GenomeSequenece(const std::string & n ,const std::string &seq): dirty(false) , name(n),sequence(seq.length())
     {
         int i = 0;
         for( auto it = seq.begin(); it != seq.end() ; it = std::next(it), i++)
@@ -78,13 +38,13 @@ namespace GSS
         }
         dirty = true;
         bool delete_flag = false;
-        for(auto  it = sequence.begin() ; it != sequence.end() ; it = std::next(it)) 
+
+        auto polymorphic_1bit = [&](DNA_Bit & dna_bit)
         {
-            DNA_Bit & dna_bit = *it;
             if(delete_flag && drand48() < indel_extern)
             {
                 dna_bit.DoDelete();
-                continue;
+                return ;
             }
             else
             {
@@ -93,7 +53,7 @@ namespace GSS
 
             if(drand48() > mut_rate)
             {
-                continue;
+                return ;
             }
             if(drand48() > indel_factor)
             {
@@ -111,6 +71,53 @@ namespace GSS
                     dna_bit.DoInsert(indel_extern);
                 }
             }
+
+        };
+
+        int last_delete = -1;
+        auto print_polymorphic_1bit = [&](DNA_Bit & dna_bit,int index)
+        {
+            std::cout<<name<<"\t"<<index<<"\t";
+            if(dna_bit.IsDelete())
+            {
+                for(int deleteId = index ; sequence.at(deleteId).IsDelete(); deleteId++)
+                {
+                    std::cout<<DNA_Bit::ID2CHAR(sequence.at(deleteId).Id());
+                    last_delete = deleteId;
+                }
+                std::cout<<"\t-\t-"<<"#DEL "<<index<<"-"<<last_delete<<std::endl;
+                return ;
+            }
+            if(dna_bit.IsSNP())
+            {
+                std::cout<<DNA_Bit::ID2CHAR(dna_bit.Id())<<"\t"
+                         <<DNA_Bit::ID2CHAR(dna_bit.SNPId())<<"\t-"
+                         <<"#SNP "<<dna_bit.Id()<<" -> "<<dna_bit.SNPId()<<std::endl;
+                return;
+            }
+            if(dna_bit.IsInsert())
+            {
+                std::cout<<DNA_Bit::ID2CHAR(dna_bit.Id())<<"\t";
+                for(int i = 0 ; i< dna_bit.InsertNum(); i++)
+                {
+                    std::cout<<DNA_Bit::ID2CHAR(dna_bit.InsertID(i));
+                }
+                std::cout<<"\t-"<<"#Insert" <<dna_bit.InsertNum()<<std::endl;
+                return ;
+            }
+        };
+
+        for(size_t i = 0; i< sequence.size() ; i++) 
+        {
+            polymorphic_1bit(sequence.at(i));
+        }
+        for(size_t i = 0; i< sequence.size() ; i++) 
+        {
+            if(sequence.at(i).NoChange() || (int)i <= last_delete )
+            {
+                continue;
+            }
+            print_polymorphic_1bit(sequence.at(i),i);
         }
     }
 
@@ -148,7 +155,7 @@ namespace GSS
                 {
                     for(int j= 0 ; j < dna_bit.InsertNum() && index < len; j++)
                     {
-                        ret.at(index++) = dna_bit.InsertID(j);
+                        ret.at(index++) = DNA_Bit::ID2CHAR(dna_bit.InsertID(j));
                     }
                 }
             }

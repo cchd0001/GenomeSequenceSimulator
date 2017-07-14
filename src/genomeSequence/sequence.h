@@ -11,11 +11,11 @@ namespace GSS
     struct DNA_Bit
     {
         private:
-            int IN_ID:8;
-            int IN_NUM:3;
-            int DEL:1;
-            int SNP:2;
-            int ID:2;
+            unsigned short IN_ID:8;
+            unsigned short IN_NUM:3;
+            unsigned short DEL:1;
+            unsigned short SNP:2;
+            unsigned short ID:2;
 
         public:
             DNA_Bit() : IN_ID(0) , IN_NUM(0), DEL(0), SNP(0),ID(0) {}
@@ -47,14 +47,14 @@ namespace GSS
             inline bool IsSNP() const { return SNP != ID;}
             inline bool IsInsert() const { return IN_NUM > 0 ;}
             inline bool NoChange() const { return !IN_NUM && !DEL && SNP == ID ; }
-            inline int  Id() const { return ID & 0x3 ; }
-            inline int  SNPId() const { return SNP & 0x3; }
+            inline unsigned short Id() const { return ID & 0x3 ; }
+            inline unsigned short  SNPId() const { return SNP & 0x3; }
 
         public:
             inline int  InsertNum() const { return IN_NUM ; }
             inline char InsertID(int i) const 
             {
-                return  ID2CHAR(IN_ID&(0x3 <<i)) ;
+                return  (IN_ID >>(i*2)) &0x3 ;
             }
         public:
             inline void DoDelete() { DEL = 1; }
@@ -62,16 +62,15 @@ namespace GSS
             {
                 do
                 {
-                    SNP = rand() % 4;
+                    SNP = ( rand() % 4 ) & 0x3;
                 }while(SNP != ID);
             }
             inline void DoInsert(float indel_extern)
             {
                 do
                 {
-                    IncrInsert();
-                    SetCurrInsertChar("ATGC"[rand() & 0x3]);
-                }while(IN_NUM < 5 && drand48() <indel_extern);
+                    SetCurrInsert(rand()%0x3);
+                }while(IN_NUM < 4 && drand48() <indel_extern);
             }
 
         public:
@@ -81,24 +80,20 @@ namespace GSS
                 SNP= ID ;
             }
         private:
-            inline void IncrInsert() { IN_NUM ++ ; }
-            inline void SetSNP(char c) 
+            inline void SetCurrInsert(int n) 
             {
-                SNP = CHAR2ID(c);
-            }
-            inline void SetCurrInsertChar(char c) 
-            {
-                IN_ID |= CHAR2ID(c) << (2*(IN_NUM -1));
+                IN_ID |= (n & 0x3) << (IN_NUM);
+                IN_NUM = (IN_NUM +1 ) & 0x7;
             }
     };
 
     class GenomeSequenece
     {
         public:
+            //To avoid useless string construct.
             struct GenomeFragment
             {
-                // [start_index,end_index) ==>
-                // [start_index,end_index) <==
+                // [start_index,end_index) <==>
                 int start_index;
                 int end_index;
                 bool reverse;
@@ -130,13 +125,16 @@ namespace GSS
                     return ret;
                 }
             };
-            GenomeSequenece(const std::string & sequence);
+
+        public:
+            GenomeSequenece(const std::string& name ,const std::string & sequence);
             void Polymorphic(double mut_rate, double indel_factor,double indel_extern) ;
             GenomeFragment GetRandomFragment(int len , bool reverse) const;
             std::string GetFramentSequence(const GenomeFragment & frament,double unccorrect) const;
             size_t length()const {return  sequence.size(); }
         private:
             bool dirty ;
+            const std::string name ;
             std::vector<DNA_Bit> sequence;
     };//class GenomeSequence
 

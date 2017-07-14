@@ -34,9 +34,12 @@ int main()
 
     while(!reader->Eof())
     {
-        std::string genome(reader->GetNextRead());
-        std::cout<<"Toatl genome size "<<genome.length()<<std::endl;
-        GenomeSequenece sequence(genome);
+        auto rInfo = reader->GetNextRead();
+
+        std::cout<<"Genome name    "<<rInfo.name<<std::endl;
+        std::cout<<"Genome comment "<<rInfo.comment<<std::endl;
+        std::cout<<"Genome size    "<<rInfo.read.size()<<std::endl;
+        GenomeSequenece sequence(rInfo.name, rInfo.read);
         sequence.Polymorphic(conf.variation_rate,conf.indel_rate,conf.indel_extern);
         for( int i = 0 ; i < (int)conf.OutputSize() ; i++ )
         {

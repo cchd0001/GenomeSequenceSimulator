@@ -4,11 +4,21 @@
 #include <string>
 namespace Utils
 {
+
+struct ReadInfo
+{
+    std::string name;
+    std::string comment;
+    std::string read;
+    std::string quality;
+};
+
 class IFileReader
 {
 
     public:
-        virtual const std::string  GetNextRead()=0 ;
+
+        virtual const ReadInfo GetNextRead()=0 ;
 
         virtual bool Eof() const = 0;
 

@@ -12,9 +12,9 @@ namespace Utils
     }
 
 #define MAXLINE 1024
-    const std::string  FastAReader::GetNextRead() 
+    const ReadInfo  FastAReader::GetNextRead() 
     {
-        std::string ret;
+        ReadInfo ret;
         if(Eof())
         {
             return ret;
@@ -27,6 +27,16 @@ namespace Utils
             {
                 if( !init) 
                 {
+                    std::string line(buffer);
+                    size_t spilt_index = line.find_first_of(' ');
+                    if(spilt_index > 1 )
+                    {
+                        ret.name = line.substr(1,spilt_index-1);
+                    }
+                    if( spilt_index < line.length() -2)
+                    {
+                        ret.comment = line.substr(spilt_index);
+                    }
                     continue; 
                 }
                 else
@@ -34,7 +44,7 @@ namespace Utils
                     return ret;
                 }
             }
-            ret += std::string(buffer);
+            ret.read += std::string(buffer);
         }
         return ret;
     }
