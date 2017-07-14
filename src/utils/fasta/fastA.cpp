@@ -51,41 +51,46 @@ namespace Utils
 
     /////////////////////////////////////////////////////////////////////
 
-    #define WEIGHT_MAX 100u
+    #define WIDTH_MAX 100u
 
     FastAWriter::FastAWriter(const std::string & fname) 
-        : file_name(fname)
+        : readend(true)
         , newline(true)
         , weight(0)
+        , readlen(0)
+        , total_n(0)
     {
-        writer.open(file_name,std::ios::out);
-        FATAL_TRUE_EN(writer.is_open());
+        fd =fopen(fname.c_str(),"w");
+        FATAL_TRUE_EN(fd);
     }
 
-    void FastAWriter::StartNewRead(const std::string & commond)
+   void FastAWriter::StartNewRead(const std::string & name,int start,int end ,
+                int error_count,int snp_count,int indel_count,int index ,bool reverse)
     {
-        if(!newline)
+        if(!readend)
         {
             EndRead();
         }
-        writer<<'>'<<commond<<std::endl;
+        fprintf(fd,">%s_%u_%u_%d:%d:%d_%d/%d\n",name.c_str(),start,end,error_count,snp_count,indel_count,index,reverse?2:1);
     }
 
     void FastAWriter::WriteRead(const std::string & read)
     {
+        readend =false;
         size_t curr = 0;
 
-        while(read.length() -curr > WEIGHT_MAX - weight)
+        readlen += read.length();
+        while(read.length() -curr > WIDTH_MAX- weight)
         {
-            writer<<read.substr(curr, WEIGHT_MAX-weight)<<std::endl;
-            curr += WEIGHT_MAX - weight-1;
+            fprintf(fd,"%s\n",read.substr(curr,WIDTH_MAX-weight).c_str());
+            curr += WIDTH_MAX- weight-1;
             weight = 0 ;
             newline = true ;
         }
 
         if(read.length() - curr > 0 )
         {
-            writer<<read.substr(curr);
+            fprintf(fd,"%s",read.substr(curr).c_str());
             weight = read.length() -curr ;
             newline = false;
         }
@@ -94,10 +99,26 @@ namespace Utils
     {
         if(!newline)
         {
-            writer<<std::endl;
-            weight = 0;
-            newline = true;
+            fprintf(fd,"\n");
         }
+        newline = true;
+        weight = 0;
+        total_n += readlen;
+        newline = true;
+        weight = 0;
+        readlen = 0;
+        readend = true;
+    }
+
+
+    FastAWriter::~FastAWriter()
+    {
+        if(fd)
+        {
+            fclose(fd);
+            fd = 0;
+        }
+        std::cout<<"Total write "<<total_n<<" bp into file !"<<std::endl;
     }
 
 }//namespace GSS

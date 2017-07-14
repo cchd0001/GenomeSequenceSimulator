@@ -29,7 +29,9 @@ class IFileWriter
 {
     public:
 
-        virtual void StartNewRead(const std::string & comment) = 0;
+        virtual void StartNewRead(const std::string & name,int start,int end ,
+                                  int error_count,int snp_count,int indel_count,
+                                  int index ,bool reverse) = 0;
 
         virtual void WriteRead(const std::string & read) = 0;
 

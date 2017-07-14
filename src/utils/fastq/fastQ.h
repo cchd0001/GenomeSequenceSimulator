@@ -50,7 +50,9 @@ class FastQWriter : public IFileWriter
 
         ~FastQWriter();
 
-        void StartNewRead(const std::string & comment) override;
+        void StartNewRead(const std::string & name,int start,int end ,
+                int error_count,int snp_count,int indel_count,
+                int index ,bool reverse) override;
 
         void WriteRead(const std::string & read) override;
 

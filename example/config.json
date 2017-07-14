@@ -1,7 +1,7 @@
 {
     "filePath": "./sequence.fasta",
     "fileType": "fasta",
-    "variable":0.01,
+    "variable":0.0005,
     "InDel":0.015,
     "InDel_Extern":0.3,
     "error":0.0001,

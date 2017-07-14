@@ -128,54 +128,60 @@ namespace GSS
         return ret;
     }
 
-    std::string  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament,double unccorrect) const
+    GenomeSequenece::FramentSequence  GenomeSequenece::GetFramentSequence(const GenomeSequenece::GenomeFragment & frament,double unccorrect) const
     {
-        std::string ret(frament.end_index-frament.start_index,'N');
+        GenomeSequenece::FramentSequence ret;
+        ret.Init(frament.end_index-frament.start_index);
+        std::string & ret_seq(ret.sequence);
         int index = 0;
-        auto setSeq=[&index,&ret,&unccorrect](const DNA_Bit & dna_bit, int len)
+        auto setSeq=[&index,&ret_seq,&unccorrect,&ret](const DNA_Bit & dna_bit, int len)
         {
             if(dna_bit.NoChange())
             {
-                ret.at(index++) =DNA_Bit::ID2CHAR( dna_bit.Id());
+                ret_seq.at(index++) =DNA_Bit::ID2CHAR( dna_bit.Id());
             }
             else
             {
                 if(dna_bit.IsDelete())
                 {
+                    ret.indel_count++;
                     return ;
                 }
                 if(dna_bit.IsSNP())
                 {
-                    ret.at(index++) = DNA_Bit::ID2CHAR(dna_bit.SNPId());
+                    ret_seq.at(index++) = DNA_Bit::ID2CHAR(dna_bit.SNPId());
+                    ret.snp_count++;
                     return ;
                 }
                 if(dna_bit.IsInsert())
                 {
+                    ret.indel_count++;
                     for(int j= 0 ; j < dna_bit.InsertNum() && index < len; j++)
                     {
-                        ret.at(index++) = DNA_Bit::ID2CHAR(dna_bit.InsertID(j));
+                        ret_seq.at(index++) = DNA_Bit::ID2CHAR(dna_bit.InsertID(j));
                     }
                 }
             }
 
             if(drand48() < unccorrect)
             {
-                 ret.at(index-1) = DNA_Bit::ID2CHAR(
-                         (DNA_Bit::CHAR2ID(ret.at(index-1)) + 1) & 0x3);
+                ret.error_count++;
+                ret_seq.at(index-1) = DNA_Bit::ID2CHAR(
+                         (DNA_Bit::CHAR2ID(ret_seq.at(index-1)) + 1) & 0x3);
             }
         };
         if(!frament.reverse)
         {
-            for(int i = frament.start_index; i < frament.end_index &&index < (int)ret.length(); i++)
+            for(int i = frament.start_index; i < frament.end_index &&index < (int)ret_seq.length(); i++)
             {
-                setSeq( sequence.at(i),ret.length());
+                setSeq( sequence.at(i),ret_seq.length());
             }
         }
         else
         {
-            for(int i = frament.end_index -1 ; i >= frament.start_index &&index < (int)ret.length(); i--)
+            for(int i = frament.end_index -1 ; i >= frament.start_index &&index < (int)ret_seq.length(); i--)
             {
-                setSeq( sequence.at(i),ret.length());
+                setSeq( sequence.at(i),ret_seq.length());
             }
         }
         return ret;

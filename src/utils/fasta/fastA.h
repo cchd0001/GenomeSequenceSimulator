@@ -30,14 +30,18 @@ class FastAReader : public IFileReader
 };
 
 
-class FastAWriter : public IFileWriter 
+class FastAWriter : public IFileWriter
 {
     private:
-        std::string file_name;
-        std::ofstream writer;
+        //std::string file_name;
+        //std::ofstream writer;
+        FILE * fd;
 
+        bool readend;
         bool newline;
         int weight;
+        int readlen;
+        size_t total_n;
 
         FastAWriter(const FastAWriter& ) ;
         FastAWriter& operator=(const FastAWriter&);
@@ -46,13 +50,15 @@ class FastAWriter : public IFileWriter
 
         FastAWriter( const std::string & fname);
 
-        ~FastAWriter() { if( writer.is_open()) { writer.close();}}
+        ~FastAWriter();
 
-        void StartNewRead(const std::string & comment) override;
+        void StartNewRead(const std::string & name,int start,int end ,
+                int error_count,int snp_count,int indel_count,
+                int index ,bool reverse) override;
 
         void WriteRead(const std::string & read) override;
 
-        void EndRead() override ;
+        void EndRead() override;
 };
 
 }//namespace GSS

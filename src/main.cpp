@@ -18,6 +18,7 @@ int main()
     std::cout<<"Test pass ..."<<std::endl;
     srand(time(0));
     std::srand(time(0));
+
     std::cout<<"Init random seed pass ..."<<std::endl;
     Config & conf = Config::Instance();
     conf.InitFromJson("config.json");

@@ -125,16 +125,30 @@ namespace GSS
                     return ret;
                 }
             };
-
+            struct FramentSequence
+            {
+                void Init(int n)
+                {
+                    sequence.resize(n,'N');
+                    error_count = 0;
+                    indel_count = 0;
+                    snp_count = 0;
+                }
+                std::string sequence;
+                int error_count;
+                int snp_count;
+                int indel_count;
+            };
         public:
             GenomeSequenece(const std::string& name ,const std::string & sequence);
             void Polymorphic(double mut_rate, double indel_factor,double indel_extern) ;
             GenomeFragment GetRandomFragment(int len , bool reverse) const;
-            std::string GetFramentSequence(const GenomeFragment & frament,double unccorrect) const;
+            FramentSequence GetFramentSequence(const GenomeFragment & frament,double unccorrect) const;
             size_t length()const {return  sequence.size(); }
+        public:
+            const std::string name ;
         private:
             bool dirty ;
-            const std::string name ;
             std::vector<DNA_Bit> sequence;
     };//class GenomeSequence
 
