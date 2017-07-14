@@ -17,14 +17,13 @@ namespace GSS
         FATAL_TRUE(DNA_Bit::ID2CHAR(1) == 'C');
         FATAL_TRUE(DNA_Bit::ID2CHAR(2) == 'T');
         FATAL_TRUE(DNA_Bit::ID2CHAR(3) == 'G');
-
     }
 
 
     GenomeSequenece::GenomeSequenece(const std::string & n ,const std::string &seq): dirty(false) , name(n),sequence(seq.length())
     {
         int i = 0;
-        for( auto it = seq.begin(); it != seq.end() ; it = std::next(it), i++)
+        for( auto it = seq.begin(); it != seq.end() ; it = std::next(it), i++ )
         {
             sequence.at(i).SetChar(*it);
         }
@@ -61,7 +60,7 @@ namespace GSS
             }
             else
             {
-                if(drand48() > 0.05f)
+                if(drand48() > 0.5f)
                 {
                     dna_bit.DoDelete();
                     delete_flag = true;
@@ -71,7 +70,6 @@ namespace GSS
                     dna_bit.DoInsert(indel_extern);
                 }
             }
-
         };
 
         int last_delete = -1;
@@ -97,7 +95,7 @@ namespace GSS
             }
             if(dna_bit.IsInsert())
             {
-                std::cout<<DNA_Bit::ID2CHAR(dna_bit.Id())<<"\t";
+                std::cout<<DNA_Bit::ID2CHAR(dna_bit.Id())<<"\t"<<DNA_Bit::ID2CHAR(dna_bit.Id());
                 for(int i = 0 ; i< dna_bit.InsertNum(); i++)
                 {
                     std::cout<<DNA_Bit::ID2CHAR(dna_bit.InsertID(i));

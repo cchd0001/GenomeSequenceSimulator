@@ -63,7 +63,7 @@ namespace GSS
                 do
                 {
                     SNP = ( rand() % 4 ) & 0x3;
-                }while(SNP != ID);
+                }while(SNP == ID);
             }
             inline void DoInsert(float indel_extern)
             {
